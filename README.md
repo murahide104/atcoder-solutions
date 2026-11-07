@@ -5,7 +5,7 @@ AtCoderで解いた問題の提出コードをまとめたリポジトリです�
 
 ## プロフィール
 - AtCoder ID: Murajya_is_a_Pen（[AtCoderプロフィールのURL](https://atcoder.jp/users/Murajya_is_a_Pen)）
-- 現在のレート: {レート}（{茶色}）
+- 現在のレート: ・
 - 使用言語: Python
 
 ## フォルダ構成
