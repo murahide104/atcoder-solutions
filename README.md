@@ -1,11 +1,11 @@
 # AtCoder Solutions (Python)
 
 AtCoderで解いた問題の提出コードをまとめたリポジトリです。
-2023年7月から継続して取り組んでいます。
+2023年4月から少しずつ取り組んでいます。
 
 ## プロフィール
 - AtCoder ID: Murajya_is_a_Pen（[AtCoderプロフィールのURL](https://atcoder.jp/users/Murajya_is_a_Pen)）
-- 現在のレート: ・
+- 現在のレート: 000-白色
 - 使用言語: Python
 
 ## フォルダ構成
