@@ -11,8 +11,8 @@ AtCoderで解いた問題の提出コードをまとめたリポジトリです�
 ## フォルダ構成
 - `AtCoder_Beginner_Contest/` : ABC（AtCoder Beginner Contest）の解答
 - `AtCoder_Regular_Contest/` : ARC（AtCoder Regular Contest）の解答
-- `AtCoder_Daily_Training/EASY/` : ADT（AtCoder Daily Training）の解答
-- `AtCoder_Typical_Contest/Problem_A/` : ATC（AtCoder Typical Contest）の解答
+- `AtCoder_Daily_Training/` : ADT（AtCoder Daily Training）の解答
+- `AtCoder_Typical_Contest/` : ATC（AtCoder Typical Contest）の解答
 
 ## 学んだアルゴリズム・データ構造
 - 全探索 / bit全探索
