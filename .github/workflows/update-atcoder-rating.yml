@@ -1,0 +1,103 @@
+name: Update AtCoder Rating
+
+on:
+  schedule:
+    # Every Saturday 23:30 JST (Saturday 14:30 UTC), after ABC ends
+    - cron: "30 14 * * 6"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-atcoder-rating
+  cancel-in-progress: false
+
+jobs:
+  update-rating:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Update rating in README
+        run: |
+          python3 - << 'PYEOF'
+          import json
+          import re
+          import urllib.request
+
+          USER = "Murajya_is_a_Pen"
+          HISTORY_URL = f"https://atcoder.jp/users/{USER}/history/json"
+          README_PATH = "README.md"
+
+
+          def rating_color(rating: int) -> str:
+              if rating < 400:
+                  return "灰色"
+              if rating < 800:
+                  return "茶色"
+              if rating < 1200:
+                  return "緑色"
+              if rating < 1600:
+                  return "水色"
+              if rating < 2000:
+                  return "青色"
+              if rating < 2400:
+                  return "黄色"
+              if rating < 2800:
+                  return "橙色"
+              return "赤色"
+
+
+          def fetch_latest_rating() -> int:
+              req = urllib.request.Request(
+                  HISTORY_URL,
+                  headers={"User-Agent": "atcoder-rating-updater/1.0"},
+              )
+              with urllib.request.urlopen(req, timeout=30) as resp:
+                  history = json.load(resp)
+              rated = [entry for entry in history if entry.get("IsRated")]
+              if not rated:
+                  raise RuntimeError("No rated contest history found")
+              return int(rated[-1]["NewRating"])
+
+
+          def main() -> None:
+              rating = fetch_latest_rating()
+              color = rating_color(rating)
+              new_text = f"現在のレート: {rating}-{color}"
+
+              with open(README_PATH, encoding="utf-8") as f:
+                  content = f.read()
+
+              pattern = re.compile(r"現在のレート: \d+-\S+")
+              if not pattern.search(content):
+                  raise RuntimeError("Rating line not found in README")
+
+              updated = pattern.sub(new_text, content, count=1)
+              if updated == content:
+                  print(f"Rating unchanged: {new_text}")
+                  return
+
+              with open(README_PATH, "w", encoding="utf-8") as f:
+                  f.write(updated)
+              print(f"Rating updated: {new_text}")
+
+
+          if __name__ == "__main__":
+              main()
+          PYEOF
+
+      - name: Commit and push if changed
+        run: |
+          if git diff --quiet -- README.md; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add README.md
+          git commit -m "Update AtCoder rating"
+          git push
